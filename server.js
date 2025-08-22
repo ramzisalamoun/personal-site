@@ -8,6 +8,9 @@ const experience = require('./models/experience'); // <-- ADD THIS LINE
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Prettify json
+app.set('json spaces', 2);
+
 // X-robots-tag to prevent bot scraping
 app.use((req, res, next) => {
   res.setHeader('X-Robots-Tag', 'noindex, nofollow');
