@@ -8,13 +8,19 @@ const experience = require('./models/experience'); // <-- ADD THIS LINE
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// X-robots-tag to prevent bot scraping
+app.use((req, res, next) => {
+  res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+  next();
+});
+
 // --- Database Connection ---
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected successfully.'))
   .catch(err => console.error('MongoDB connection error:', err));
 
 // --- API Route ---
-app.get('/api/info', async (req, res) => {
+app.get('/info', async (req, res) => {
   try {
     // We use findOne since there will only be one document with your info
     const myInfo = await info.findOne();
@@ -28,7 +34,7 @@ app.get('/api/info', async (req, res) => {
 });
 
 // --- API Route ---
-app.get('/api/experience', async (req, res) => {
+app.get('/experience', async (req, res) => {
   try {
     const myExperience = await experience.findOne();
     if (!myExperience) {
